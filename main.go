@@ -36,7 +36,7 @@ func main() {
 
 		_, isToken := r.Header["Token"]
 		if isToken == false || r.Header["Token"][0] != os.Getenv("TOKEN") {
-			jsonResult, _ = json.Marshal(Result{Status: "fail", Message: "no auth token", Error: ""})
+			jsonResult, _ = json.Marshal(Result{Status: false, Message: "no auth token", Error: ""})
 			w.WriteHeader(http.StatusBadRequest)
 			result(w, jsonResult)
 			return
@@ -44,7 +44,7 @@ func main() {
 
 		storageMask, isStorage := r.Header["Storage"]
 		if isStorage == false || r.Header["Storage"][0] == "" {
-			jsonResult, _ = json.Marshal(Result{Status: "fail", Message: "no storage mask", Error: ""})
+			jsonResult, _ = json.Marshal(Result{Status: false, Message: "no storage mask", Error: ""})
 			w.WriteHeader(http.StatusBadRequest)
 			result(w, jsonResult)
 			return
@@ -53,7 +53,7 @@ func main() {
 		if strings.Contains(r.URL.Path, "/files") {
 			files, err := getFiles(r)
 			if err != nil {
-				jsonResult, _ = json.Marshal(Result{Status: "fail", Message: "error retrieving the list of files",
+				jsonResult, _ = json.Marshal(Result{Status: false, Message: "error retrieving the list of files",
 					Error: err.Error()})
 				result(w, jsonResult)
 				return
@@ -65,25 +65,25 @@ func main() {
 		if strings.Contains(r.URL.Path, "/remove") {
 			err := remove(r)
 			if err != nil {
-				jsonResult, _ = json.Marshal(Result{Status: "fail", Message: "error removing",
+				jsonResult, _ = json.Marshal(Result{Status: false, Message: "error removing",
 					Error: err.Error()})
 				result(w, jsonResult)
 				return
 			}
-			jsonResult, _ = json.Marshal(Result{Status: "success"})
+			jsonResult, _ = json.Marshal(Result{Status: true})
 			result(w, jsonResult)
 			return
 		}
 
 		file, handler, err := r.FormFile("file")
 		if err != nil {
-			jsonResult, _ = json.Marshal(Result{Status: "fail", Message: "error retrieving the file",
+			jsonResult, _ = json.Marshal(Result{Status: false, Message: "error retrieving the file",
 				Error: err.Error()})
 			result(w, jsonResult)
 			return
 		}
 		if handler.Size > int64(lum<<20) {
-			jsonResult, _ = json.Marshal(Result{Status: "fail", Message: "max file size - " + limitUploadMB + "MB",
+			jsonResult, _ = json.Marshal(Result{Status: false, Message: "max file size - " + limitUploadMB + "MB",
 				Error: "request body too large"})
 			result(w, jsonResult)
 			return
@@ -98,12 +98,12 @@ func main() {
 		str, err := handlerFile(storageMask[0], file, handler)
 
 		if err != nil {
-			jsonResult, _ = json.Marshal(Result{Status: "fail", Message: str, Error: err.Error()})
+			jsonResult, _ = json.Marshal(Result{Status: false, Message: str, Error: err.Error()})
 			w.WriteHeader(http.StatusServiceUnavailable)
 			result(w, jsonResult)
 		} else {
 			jsonResult, _ = json.Marshal(Result{
-				Status:           "success",
+				Status:           true,
 				HostUrl:          os.Getenv("HOST_URL"),
 				PathServer:       str,
 				Size:             handler.Size,
@@ -199,7 +199,7 @@ func getFiles(r *http.Request) ([]byte, error) {
 	}
 
 	jsonResult, _ := json.Marshal(Files{
-		Status:       "success",
+		Status:       true,
 		Items:        items,
 		ItemsRemoved: itemsRemoved,
 		Size:         size,

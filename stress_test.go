@@ -30,7 +30,7 @@ func TestStress(t *testing.T) {
 				t.Error(err)
 			}
 
-			if result.Status != "success" {
+			if result.Status != true {
 				t.Error("status upload not success")
 
 			}
@@ -61,7 +61,7 @@ func TestStress(t *testing.T) {
 				t.Error(err)
 			}
 
-			if result.Status != "success" {
+			if result.Status != true {
 				t.Error("get stats not success")
 
 			}
@@ -88,7 +88,7 @@ func TestStress(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	if result.Status != "success" {
+	if result.Status != true {
 		t.Error("get all not success")
 	}
 
@@ -108,7 +108,7 @@ func TestStress(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		if resultRem.Status != "success" {
+		if resultRem.Status != true {
 			t.Error("remove not success")
 		}
 	}

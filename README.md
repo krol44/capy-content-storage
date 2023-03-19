@@ -1,5 +1,5 @@
 # Capy content storage
-![capy-content-storage](https://github.com/krol44/capy-content-storage/raw/master/readme-capybara.gif?raw=true)
+![capy-content-storage](https://github.com/krol44/capy-content-storage/blob/master/.github/readme-capybara.gif?raw=true)
 
 ### **It's file storage which working through api**
 
@@ -19,7 +19,7 @@ curl -H "Token: some-token" -H "Storage: langlija" \
 Result:
 ```
 {
-    "status":"success",
+    "status":true,
     "hostUrl":"localhost",
     "pathServer":"langlija/c/07/c07441a2d2c1dcbde7908dfa96625cc0.png",
     "size":3933042,
@@ -46,7 +46,7 @@ curl -H "Token: some-token" \
 Result:
 ```
 {
-    "status":"success",
+    "status":true,
     "quantity":15,
     "itemsRemoved":0,
     "size":58995630,
@@ -78,14 +78,14 @@ Result:
 file will be copy the dir (files-removed) and removed from the dir (files)
 ```
 {
-    "status":"success"
+    "status":true
 }
 ```
 
 ### Error json type
 ```
 {
-    "status":"fail",
+    "status":false,
     "message":"error removing",
     "error":"open files/langlija/e/31/e3124fd2ae8e4bdf5793b46d694052d1.png: no such file or directory"
 }

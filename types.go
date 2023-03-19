@@ -3,7 +3,7 @@ package main
 import "time"
 
 type Result struct {
-	Status           string `json:"status"`
+	Status           bool   `json:"status"`
 	Message          string `json:"message,omitempty"`
 	Error            string `json:"error,omitempty"`
 	HostUrl          string `json:"hostUrl,omitempty"`
@@ -19,7 +19,7 @@ type File struct {
 }
 
 type Files struct {
-	Status       string `json:"status"`
+	Status       bool   `json:"status"`
 	Message      string `json:"message,omitempty"`
 	Error        string `json:"error,omitempty"`
 	Items        int    `json:"items"`
