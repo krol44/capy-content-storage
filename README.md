@@ -1,9 +1,13 @@
 # Capy content storage
-![capybara](readme-capybara.gif)
+![capy-content-storage](https://github.com/krol44/capy-content-storage/raw/master/readme-capybara.gif?raw=true)
 
 ### **It's file storage which working through api**
 
 ## Install:
+1. git clone
+2. mkdir /tmp/files && mkdir /tmp/files-removed
+3. ./docker-start.sh
+4. ./test-request.sh
 
 ## Api:
 ### Save file:

@@ -28,6 +28,8 @@ func main() {
 	setup()
 	limitUploadMB := os.Getenv("LIMIT_UPLOAD_MB")
 
+	log.Info("Service running...")
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var jsonResult []byte
 		lum, _ := strconv.Atoi(limitUploadMB)

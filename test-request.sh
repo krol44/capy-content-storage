@@ -15,11 +15,11 @@ curl -H "Token: some-token" \
     -H "Content-Type: application/json" \
     -d '{"paths": []}'
 
-#printf "\n\n"
-#curl -H "Token: some-token" \
-#    -H "Storage: langlija" --insecure http://localhost:8017/files \
-#    -H "Content-Type: application/json" \
-#    -d '{"paths": ["all"]}'
+printf "\n\n"
+curl -H "Token: some-token" \
+    -H "Storage: langlija" --insecure http://localhost:8017/files \
+    -H "Content-Type: application/json" \
+    -d '{"paths": ["all"]}'
 
 printf "\n\n"
 curl -H "Token: some-token" \
