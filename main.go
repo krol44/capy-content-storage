@@ -28,7 +28,7 @@ func main() {
 	setup()
 	limitUploadMB := os.Getenv("LIMIT_UPLOAD_MB")
 
-	log.Info("Service running...")
+	log.Info("Service is running...")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		var jsonResult []byte
@@ -75,40 +75,46 @@ func main() {
 			return
 		}
 
-		file, handler, err := r.FormFile("file")
-		if err != nil {
-			jsonResult, _ = json.Marshal(Result{Status: false, Message: "error retrieving the file",
-				Error: err.Error()})
-			result(w, jsonResult)
-			return
-		}
-		if handler.Size > int64(lum<<20) {
-			jsonResult, _ = json.Marshal(Result{Status: false, Message: "max file size - " + limitUploadMB + "MB",
-				Error: "request body too large"})
-			result(w, jsonResult)
-			return
-		}
-		defer func(file multipart.File) {
-			err := file.Close()
+		if strings.Contains(r.URL.Path, "/upload") {
+			file, handler, err := r.FormFile("file")
 			if err != nil {
+				jsonResult, _ = json.Marshal(Result{Status: false, Message: "error retrieving the file",
+					Error: err.Error()})
+				result(w, jsonResult)
 				return
 			}
-		}(file)
+			if handler.Size > int64(lum<<20) {
+				jsonResult, _ = json.Marshal(Result{Status: false, Message: "max file size - " + limitUploadMB + "MB",
+					Error: "request body too large"})
+				result(w, jsonResult)
+				return
+			}
+			defer func(file multipart.File) {
+				err := file.Close()
+				if err != nil {
+					return
+				}
+			}(file)
 
-		str, err := handlerFile(storageMask[0], file, handler)
+			str, err := handlerFile(storageMask[0], file, handler)
 
-		if err != nil {
-			jsonResult, _ = json.Marshal(Result{Status: false, Message: str, Error: err.Error()})
-			w.WriteHeader(http.StatusServiceUnavailable)
-			result(w, jsonResult)
-		} else {
-			jsonResult, _ = json.Marshal(Result{
-				Status:           true,
-				HostUrl:          os.Getenv("HOST_URL"),
-				PathServer:       str,
-				Size:             handler.Size,
-				FilenameUploaded: handler.Filename,
-			})
+			if err != nil {
+				jsonResult, _ = json.Marshal(Result{Status: false, Message: str, Error: err.Error()})
+				w.WriteHeader(http.StatusServiceUnavailable)
+				result(w, jsonResult)
+			} else {
+				jsonResult, _ = json.Marshal(Result{
+					Status:           true,
+					HostUrl:          os.Getenv("HOST_URL"),
+					PathServer:       str,
+					Size:             handler.Size,
+					FilenameUploaded: handler.Filename,
+				})
+				result(w, jsonResult)
+				return
+			}
+
+			jsonResult, _ = json.Marshal(Result{Status: true, Message: "Service is running..."})
 			result(w, jsonResult)
 		}
 	})

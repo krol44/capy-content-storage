@@ -1,7 +1,7 @@
 #!/bin/bash
 
 printf "\n\n"
-curl -H "Token: some-token" -H "Storage: langlija" -F "file=@test-img.png" --insecure http://localhost:8017
+curl -H "Token: some-token" -H "Storage: langlija" -F "file=@test-img.png" --insecure http://localhost:8017/upload
 
 printf "\n\n"
 curl -H "Token: some-token" \

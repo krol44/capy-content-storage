@@ -18,7 +18,7 @@ func TestStress(t *testing.T) {
 				"-H", "Token:some-token",
 				"-H", "Storage:langlija",
 				"-F", "file=@test-img.png",
-				"--insecure", "http://localhost:8017").Output()
+				"--insecure", "http://localhost:8017/upload").Output()
 
 			if err != nil {
 				t.Error(err)

@@ -32,7 +32,7 @@ or
 ```Storage``` - key space / example: *site1.test, site2, photos, videos, etc*
 ```
 curl -H "Token: sogime-token" -H "Storage: langlija" \
- -F "file=@test-img.png" --insecure http://localhost:8017
+ -F "file=@test-img.png" --insecure http://localhost:8017/upload
 ```
 Result:
 ```
